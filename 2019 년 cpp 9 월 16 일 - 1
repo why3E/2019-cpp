@@ -1,0 +1,63 @@
+//--------------------------------------------------------------------------
+// 2019. 9. 16 월 c++                           월 56 수 34       (1주 1일)
+//
+// 강의 소개
+// 
+// 정렬
+//--------------------------------------------------------------------------
+
+#include <iostream>
+#include <random>
+#include "save.h"
+
+using namespace std;
+
+//문제 a를 범위가 (1,1000000) 랜덤값으로 채우자.
+//가장 작은 값과 가장 큰 값을 찾아 화면에 출력하자.
+//레퍼런스 이해 
+int main() 
+{
+	int a[10];
+	int dataMax = a[0];
+	int dataLow = a[0];
+
+	default_random_engine dre;
+	uniform_int_distribution<> uid(1, 1000'0000);
+
+   //랜덤값 부여
+	for (int& d : a)  // syntatic sugar의 일종
+  {
+		d = uid(dre);
+	}
+    
+	  //모두 출력
+  for (int d : a) //범위기반의 for (range - based for)
+	{
+    cout << d << endl;
+  }
+	cout << endl;
+
+	  //큰 값을 찾기
+	for (int d : a)
+	{
+		if (dataMax < d)
+	  {
+			dataMax = d;
+		}
+	}
+
+	cout << "가장 큰 값은" << dataMax << endl;
+    
+    //작은 값을 찾기
+  for (int d : a)
+	{
+		if (dataLow > d)
+		{
+			dataLow = d;
+		}
+	}
+
+	cout << "가장 작은 값은" << dataLow << endl;
+
+	save("소스.cpp");
+}
