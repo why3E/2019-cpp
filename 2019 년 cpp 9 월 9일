@@ -1,0 +1,40 @@
+//--------------------------------------------------------------------------
+// 2019. 9. 9 월 c++                           월 56 수 34       (1주 1일)
+//
+// 강의 소개
+// 
+// 2~9단까지만 입력받아서 그 단에 해당하는 구구단을 출력해라
+//--------------------------------------------------------------------------
+
+#include <iostream>
+#include <string>
+#include "save.h"
+
+
+int main() 
+{
+	int number;
+	
+	std::cout << "몇단을 출력할까요";
+	std::cin >> number;
+
+	while (1) 
+  {
+		std::cout << "몇단을 출력할까요";
+		std::cin >> number;
+
+		if (number >= 2 && number <= 9) 
+    {
+			break;
+			std::cout << "잘못된입력입니다" << std::endl;
+		}
+	}
+	for (int i = 1; i = 9; ++i) 
+  {
+			std::cout << number << " * " << i << " = " << number * i << std::endl;
+			break;
+	}
+	
+	
+	save( "소스.cpp" );
+}
