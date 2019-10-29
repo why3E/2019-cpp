@@ -1,0 +1,33 @@
+//--------------------------------------------------------------------------
+// 2019. 9. 11 c++                           월 56 수 34       (1주 1일)
+//
+// 강의 소개
+// 
+// 랜덤
+//--------------------------------------------------------------------------
+
+#include <iostream>
+#include <random>
+#include <thread>
+#include "save.h"
+
+using namespace std;
+
+//c++ 랜덤값 생성성
+//랜덤엔진으로 랜덤값 생성
+//확률 분포로 원하는 통계특성 설정
+
+int main() 
+{
+	save("소스.cpp");
+
+	//주사위 생성
+	default_random_engine dre;
+	uniform_int_distribution<> uid(1, 6);
+
+	while (1) 
+  {
+		this_thread::sleep_for(1s);
+		cout << uid(dre) << endl;
+	}
+}
