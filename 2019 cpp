@@ -1,0 +1,39 @@
+//--------------------------------------------------------------------------
+// 2019. 9. 2 월 c++                           월 56 수 34       (1주 1일)
+//
+// 강의 소개
+// save 기능 만들기
+//
+//--------------------------------------------------------------------------
+
+#include <fstream>
+#include <iostream>
+#include <chrono>
+
+void save( char const* faname); // function declaration
+
+int main() {
+	save( "소스.cpp" );
+}
+
+void save( char const* fname) {
+
+	std::ifstream in( fname );
+	std::ofstream out("2019 2학기 c++ 월 56 수 34 강의록.txt", std::ios::app);
+
+	//저장하는 시점의 시간값을 얻어오자
+
+	auto now = std::chrono::system_clock::now();
+	auto time = std::chrono::system_clock::to_time_t(now);
+
+	out << "\n\n";
+	out << "-------------------------------------------" << std::endl;
+	out << ctime(&time);        //저장된 시간을 기록한다
+	out << "-------------------------------------------" << std::endl;
+	out << "\n\n";
+	int c;
+
+	while ((c = in.get()) != EOF)
+		out.put(c);
+
+}
