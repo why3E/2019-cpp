@@ -10,31 +10,27 @@
 #include <string>
 #include "save.h"
 
+using std::cout;
 
-int main() 
-{
+int main() {
+
+	save("소스.cpp");
+
+	std::cout << "구구단을 출력합니다" << std::endl;
+
 	int number;
-	
-	std::cout << "몇단을 출력할까요";
-	std::cin >> number;
 
-	while (1) 
-  {
-		std::cout << "몇단을 출력할까요";
+	while (1) {
+		std::cout << "몇단을 출력할까요(2~9)";
 		std::cin >> number;
 
-		if (number >= 2 && number <= 9) 
-    {
-			break;
+		if (number <= 2 && number >= 9) {
 			std::cout << "잘못된입력입니다" << std::endl;
-		}
-	}
-	for (int i = 1; i = 9; ++i) 
-  {
-			std::cout << number << " * " << i << " = " << number * i << std::endl;
 			break;
+		}
+		for (int i = 1; i <= 9; ++i) {
+			std::cout << number << " * " << i << " = " << number * i << std::endl;
+		}
+
 	}
-	
-	
-	save( "소스.cpp" );
-}
+
