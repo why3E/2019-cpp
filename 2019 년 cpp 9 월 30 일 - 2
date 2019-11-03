@@ -1,0 +1,58 @@
+//--------------------------------------------------------------------------
+// 2019. 9. 30 c++                           월 56 수 34       (5주 1일)
+//
+// 강의 소개
+// 
+// 
+// FILE I/O - 자료는 실행되는 프로그램 밖 어디라도 있을 수 있다
+// 
+//
+// 시험 1 - 5주 2일, 10월 2일 수요일
+//--------------------------------------------------------------------------
+
+#include <iostream>
+#include <fstream>
+#include <random>
+#include "save.h"
+
+using namespace std;
+
+//정수 1000개를 "데이터.txt"에 기록하자
+//정수의 값은 uid(dre) 로 쓴다
+//
+
+int main()
+{
+	ofstream out{ "데이터.txt" };
+
+	default_random_engine dre;
+	uniform_int_distribution<int> uid(1, 1000);
+
+	for (int i = 0; i < 1000; ++i)
+	{
+		out << uid(dre) << endl;
+	}
+
+//데이터.txt에 있는 정수 1000개를 읽어라
+//오름차순으로 정렬한 후
+//화면에 출력하라
+
+	ifstream in("데이터.txt");
+
+	int c[1000];
+
+	for (int i = 0; i < 1000; ++i)
+	{
+		in >> c[i];
+	}
+
+	sort(begin(c), end(c), [](int a, int b) {
+		return a < b;
+	});
+
+	for (int d : c)
+	{
+		cout << d << endl;
+	}
+	save( "소스.cpp" );
+} 
