@@ -14,7 +14,7 @@
 #include "save.h"
 
 using namespace std;
-
+// padding
 struct alignas(64) Vertex  //사용자 정의 자료형
 {		// 사용은 13이지만 크기를 64로 2의 제곱만 가능
 
