@@ -1,0 +1,40 @@
+
+//--------------------------------------------------------------------------
+// 2019. 9. 16 월 c++                           월 56 수 34       (1주 1일)
+//
+// 강의 소개
+// 
+// 퀵 정렬(sort) 
+// const : 메모리에 접근할때 읽기만 하겠다 - 더 알아두기
+// Reference : ? -더 알아두기
+//--------------------------------------------------------------------------
+
+#include <iostream>
+#include "save.h"
+
+using namespace std;
+
+// 함수 포인터
+
+int descend(void* a, void* b);
+
+int descend(void const *a, void const *b)
+{
+	return *(int*)b - *(int*)a; 
+}
+
+int main()
+{
+	int a[10]{ 10,8,6,4,2,9,7,5,3,1 };
+	
+	int(*comp)(const void*, const void*) = descend; // auto comp  = descend 도 가능은 함
+
+	qsort(a, 10, sizeof(int), comp ); // ascend는 함수 포인터 ( 오름차순) descend로  만들면 내림차순
+
+	for (int d : a) 
+	{
+		cout << d << ' ';
+	}
+	cout << endl;
+	save("소스.cpp");
+}
