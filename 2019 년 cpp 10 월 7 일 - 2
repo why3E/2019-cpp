@@ -1,0 +1,71 @@
+
+//--------------------------------------------------------------------------
+// 2019. 10 . 9 수 c++                           월 56 수 34      
+// 강의 소개
+// 
+// 
+// 사용자 정의 자료형(user - defined data type)
+// - 1, 2, 4, 8 보다 큰 메모리가 필요해서
+// - POD 가지고 프로그램하기엔 규모도 크고 이해가 어렵고 등등
+//--------------------------------------------------------------------------
+
+#include <iostream>
+#include <random>
+#include "save.h"
+
+using namespace std;
+
+//Vertex 1000개를 만들고
+//좌표 (0,0,0)에 폭탄이 떨어진다 가정하자
+//폭탄 반경 100m 이내의 정점을 화면에 출력하자
+
+struct Vertex //사용자의 자료형
+{
+	float x;
+	float y;
+	float z;
+};
+
+Vertex points[1000];
+
+//c++언어는 class가있는 언어다. 객체지향
+int main()
+{
+	//Vertex를 천개 만든다
+	//크기가 크므로 전역변수로 만들었다
+
+	//적절한 값을 설정해보자( 0~500 , 0~500 , 0~10)
+	default_random_engine dre;
+	uniform_int_distribution<int> uidX{ 0, 500 };
+	uniform_int_distribution<int> uidY{ 0, 500 };
+	uniform_int_distribution<int> uidZ{ 0, 10 };
+
+
+	for (int i = 0; i < 1000; ++i)
+	{
+		points[i].x = uidZ(dre);
+		points[i].y = uidY(dre);
+		points[i].z = uidX(dre);
+	}
+
+	/*for (Vertex p : points) //for (const Vertex& p : points); 이게 옳음
+	{
+		cout << "(" << p.x << "," << p.y << "," << p.z << ")" << endl;
+	}*/
+
+	//폭탄과 (0,0,0) 의 거리가 100이하인 점을 계산하여 출력
+
+	int cnt{};
+	for (Vertex p : points)
+	{
+		if (sqrt(p.x * p.x + p.y * p.y + p.z * p.z) <= 100)
+		{
+			cout << "(" << p.x << "," << p.y << "," << p.z << ")" << endl;
+			cnt++;
+		}
+	}
+	cout << "반경 100이내의 점은 모두 " << cnt << endl;
+	//모두 몇개인지 출력하자
+
+	save( "소스.cpp" );
+} 
