@@ -1,0 +1,30 @@
+//--------------------------------------------------------------------------
+// 2019. 9. 18 수 c++                           월 56 수 34       (3주 2일)
+//
+// 강의 소개
+// 
+// 람다
+// 알고리즘 sort
+// sintatic sugar
+// dog fox jump
+//--------------------------------------------------------------------------
+
+#include <iostream>
+#include <string>
+#include <algorithm>
+#include "save.h"
+
+using namespace std;
+
+int main()
+{
+	string sample{ "the quick brown fox jumps over the lazy dog"s };
+
+	//문제 : sample을 오름차순으로 정렬하라
+	sort(begin(sample), end(sample), [](char a, char b) {
+		return a < b;
+	});
+		cout << sample << endl;
+	
+	save( "소스.cpp" );
+}
