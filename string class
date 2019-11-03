@@ -1,0 +1,175 @@
+//--------------------------------------------------------------------------
+// 2019. 10 . 28 월 c++                           월 56 수 34      
+// 강의 소개
+//
+// class
+//--------------------------------------------------------------------------
+
+#include <iostream>
+#include <string>
+#include <random>
+#include <algorithm>
+#include "save.h"
+
+using namespace std;
+
+class STRING {
+	size_t len;
+	char* p;
+
+public:
+	STRING() : len{ 0 }, p{ nullptr } {
+	}
+
+	STRING(const char* str) {
+	//전달된 글자 수를 세서 메모리를 마련한 후 저장
+		len = strlen(str);
+		p = new char[len];
+		memcpy(p, str, len);
+	}
+
+	//생성시 자원을 확보했다면 반드시 소멸자에서 확보한 자원을 되돌려줘야한다.
+	~STRING()
+	{
+		if (len != 0)
+		{
+			delete[] p;
+		}
+	}
+
+	//복사생성자
+	STRING(const STRING& other) : len{ other.len } {
+		p = new char[len];
+		//깊은 복사를 해야 dangling pointer가 안 만들어진다.
+		memcpy(p, other.p, len);
+	}
+	//copy assignment operator
+	STRING& operator = (const STRING& rhs) {
+		// a=a; 이럴땐 아무일도 안해야 함
+		if (this == &rhs)
+		{
+			return *this;
+		}
+		//확보한 메모리를 해제한다.
+		if (len != 0)
+		{
+			delete[] p;
+		}
+		len = rhs.len;
+		p = new char[len];
+		memcpy(p, rhs.p, len);
+	}
+
+	//이동생성자
+	STRING(STRING&& other) noexcept : len{ other.len }, p{ other.p } {//원본을 가져오는거니까 const는 안붙임
+		other.len = 0;
+		other.p = nullptr;
+	}
+
+	//이동할당연산자
+	STRING& operator = (STRING&& other) noexcept {//noexcept는 보증서 코드가 예외를 안던짐, 데이터가 안전한 코드
+		if (this == &other)
+		{
+			return *this;
+		}
+		//확보한 메모리를 해제한다.
+		if (len != 0)
+		{
+			delete[] p;
+		}
+		len = other.len;
+		p = new char[len];
+
+		p = other.p;
+		other.len = 0;
+		other.p = nullptr;
+
+		return *this;
+	}
+
+	STRING operator +(const STRING& rhs) const {
+		STRING res;
+		res.len = len + rhs.len;
+		res.p = new char[res.len];
+
+		memcpy(res.p, p, len);
+		memcpy(res.p + len, rhs.p, rhs.len);
+
+		return res;
+	}
+
+	STRING operator+(char c) {
+		STRING res;
+		res.len = len + 1;
+		res.p = new char[res.len];
+
+		memcpy(res.p, p, len);
+		res.p[res.len - 1] = c;
+
+		return res;
+	}
+
+	char operator[] (int idx) const	{
+		return *(p + idx);
+	}
+
+	char& operator[] (int idx) {
+		return *(p + idx);
+	}
+	
+	size_t length() const
+	{
+		return len;
+	}
+
+	char* begin() const {
+		return p;
+	}
+
+	char* end() const {
+		return p + len;
+	}
+
+	friend ostream& operator << (ostream&, const STRING&);
+
+};
+
+ostream& operator<<(ostream& os, const STRING& s)
+{
+	for (int i = 0; i < s.len; ++i)
+	{
+		os << *(s.p + i);
+	}
+	return os;
+};
+
+default_random_engine dre;
+uniform_int_distribution<> uidChar{ 'a', 'z' };
+uniform_int_distribution<> uidNum{ 1, 70 };
+
+int main()
+{
+	STRING str[10];
+
+	for (int i = 0; i < 10; ++i)
+	{
+		for (int j = 0; j < uidNum(dre); ++j)
+		{
+			str[i] = str[i] + uidChar(dre);
+		}
+	}
+	//str길이 기준 오름차순으로 정렬하자.
+
+	sort(begin(str), end(str), [](const STRING& a, const STRING& b) {
+		return a.length() < b.length();
+	});
+
+	for (int i = 0; i < 10; ++i)
+	{
+		cout << str[i] << endl;
+	}
+
+
+
+	save("소스.cpp");
+}
