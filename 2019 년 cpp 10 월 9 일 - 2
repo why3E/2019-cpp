@@ -24,9 +24,9 @@ struct Vertex  //사용자 정의 자료형
 	float z{3};
 
 	//함수 오버로딩(overloading)
-	// - 같은 이름의 함수를 얼마든지 사용할 수 있다.(인자로 구분가능하다면)
+	//같은 이름의 함수를 얼마든지 사용할 수 있다.(인자로 구분가능하다면)
 
-	//디폴트 생성자 함수
+	//디폭트 생성자 함수
 	Vertex() {
 		cout << "디폴트 생성자가 호출되었다." << endl;
 	}
@@ -35,11 +35,16 @@ struct Vertex  //사용자 정의 자료형
 	Vertex(float a, float b, float c) : x{ a }, y{ b }, z{ c } {
 		cout << "정수 3개를 인자로 받은 생성자가 호출되었다" << endl;
 	}
+	
+	Vertex(const Vertex& other) :
+		x{ other.x *10 }, y{ other.y*10}, z{ other.z*10 }
+	{	//복사 생성자 ( copy constructor) - 컴파일러가 자동생성가능한 special member
+		cout << "복사 생성자가 호출되었다." << endl;
+	}
 
 	void show() { //멤버 함수(member function)
 		cout << "(" << x << "," << y << "," <<z<<")" << endl;
 	}
-	
 };
 
 int main()
@@ -48,10 +53,9 @@ int main()
 	Vertex b{};
 	Vertex c{ 1,2,3 };
 	Vertex d{ a }; // Vertex d = a --> Vertex d(a); 
-
+ //special member
 
 	d.show();
-
 
 	save("소스.cpp");
 }
