@@ -59,11 +59,11 @@ int main()
 {
 	cout << "메인 시작" << endl;
 
-	Dog* x = new Dog;
+	Dog* x = new Dog[5];
 
 	save("소스.cpp");
 
-	delete x;
+	delete x[];
 
 	cout << "메인 끝 " << endl;
 }
