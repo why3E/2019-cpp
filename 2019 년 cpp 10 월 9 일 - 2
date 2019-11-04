@@ -1,0 +1,57 @@
+//--------------------------------------------------------------------------
+// 2019. 10 . 9 c++                           월 56 수 34      
+// 강의 소개
+// 
+//	사용자 정의 자료형 ( User-Defined Data type) 
+//	- 어떤 자료형이라도 새로운 이름으로 묶을 수 있다. (struct, class)
+//	- 묶인 자료는 메모리를 얼마나 차지하나?
+//		-> 속도를 위해 메모리를 더 많이 사용한다.
+//	- 묶어 사용할때(생성, 대입, 복사, 소멸) 어떤 일이 일어나나?
+//	함수 오버로딩 
+//
+//--------------------------------------------------------------------------
+
+#include <iostream>
+#include <random>
+#include "save.h"
+
+using namespace std;
+
+struct Vertex  //사용자 정의 자료형
+{
+	float x{3};
+	float y{3};
+	float z{3};
+
+	//함수 오버로딩(overloading)
+	// - 같은 이름의 함수를 얼마든지 사용할 수 있다.(인자로 구분가능하다면)
+
+	//디폴트 생성자 함수
+	Vertex() {
+		cout << "디폴트 생성자가 호출되었다." << endl;
+	}
+
+	//다른 다양한 생성자도 사용자가 책임지고 코딩해야한다.
+	Vertex(float a, float b, float c) : x{ a }, y{ b }, z{ c } {
+		cout << "정수 3개를 인자로 받은 생성자가 호출되었다" << endl;
+	}
+
+	void show() { //멤버 함수(member function)
+		cout << "(" << x << "," << y << "," <<z<<")" << endl;
+	}
+	
+};
+
+int main()
+{
+	Vertex a;
+	Vertex b{};
+	Vertex c{ 1,2,3 };
+	Vertex d{ a }; // Vertex d = a --> Vertex d(a); 
+
+
+	d.show();
+
+
+	save("소스.cpp");
+}
