@@ -1,0 +1,82 @@
+//--------------------------------------------------------------------------
+// 2019. 10 . 21 c++                           월 56 수 34      
+// 강의 소개
+// 
+//	사용자 정의 자료형 ( User-Defined Data type) 
+//	- 어떤 자료형이라도 새로운 이름으로 묶을 수 있다. (struct, class)
+//	- 묶인 자료는 메모리를 얼마나 차지하나?
+//		-> 속도를 위해 메모리를 더 많이 사용한다.
+//	- 묶어 사용할때(생성, 대입, 복사, 소멸) 어떤 일이 일어나나?
+//	함수 오버로딩 
+//
+//--------------------------------------------------------------------------
+
+#include <iostream>
+#include <string>
+#include <random>
+#include "save.h"
+
+using namespace std;
+
+// const와 &의 정확한 사용법이 매우 중요함
+
+
+int SN{};
+
+default_random_engine dre;
+uniform_int_distribution<int> uid{ 1, 150 };
+
+class Dog 
+{	
+private:
+	int id{ SN++ };
+	string name;
+	int age;
+	
+public:
+	Dog() : name{ "없음" }, age{} {
+		name += to_string(uid(dre));
+		age = uid(dre);
+	}
+	~Dog() {
+	}
+	//만일 객체가 복사된다면 이 함수가 불린다.
+	Dog(const Dog& other) : name{ other.name }, age{ other.age } {
+		cout << " 복사" << endl;
+	}
+
+	string getName() const{
+		return name;
+	};
+
+	int getAge() const {
+		return age;
+	};
+
+	void run() {
+		cout << id << " - " << name << " - " << age << " 달린다"  << endl;
+	}
+
+	void show() { //show에서도 읽기로 바꾸기
+		
+		cout << id << " - " << name << ", " << age << endl;
+	}
+};
+
+// 문제 - 이 프로그램은 메모리 사용 면에서 어떤 문제가 있는데 찾을 수 있을까?
+
+int main()
+{
+	Dog dogs[100];
+
+	sort(begin(dogs), end(dogs), []( Dog a, Dog b) { //복사는 피할수 없음 가장 줄이는 방식이 const & 사용
+		return a.getName() < b.getName();
+	});
+
+	for ( Dog dog : dogs) // &를 안넣으면 Dog(26바이트)의 크기를 계속 생성 복사 제거를 반복하기때문에 손해, &를 넣으면 4바이트로 해결 가능
+	{	
+		dog.show();
+	}
+	cout << "메인 끝 " << endl;	
+	save("소스.cpp");
+}
