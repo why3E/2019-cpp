@@ -1,0 +1,91 @@
+//--------------------------------------------------------------------------
+// 2019. 10. 09 c++                           월 56 수 34       (6주 1일)
+//
+// 연산자 오버로딩 (operator overloading) - 11장
+// - 내가 만든 자료형도 POD와 유사하게 코딩할 수 있었으면 좋겠어
+//
+// 시험 2 - 11/4 (10주 1일) 예정
+//--------------------------------------------------------------------------
+
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <random>
+#include <algorithm>
+#include "save.h"
+
+using namespace std;
+
+// #define INT int
+// using INT = int;
+
+//[문제] main 수정 없이 실행되는 class INT를 코딩하자
+class INT {
+private:
+   int val;
+
+public:
+   INT() : val{} {}                   //디폴트 생성자
+   INT(int n) : val{ n } {}              //인자를 받는 생성자
+
+   int operator+(INT rhs) {
+      return val + rhs.val;
+   }
+
+   //prefix increment operator++
+   INT& operator++() {
+      ++val;
+      return *this;
+   }
+
+   //postfix increment operator++
+   int operator++(int) {
+      int temp{ val };// 내 현재값을 저장한다
+      ++(*this);      // 내 값이 1 증가한다
+      return temp;    // 저장한 값을 되돌려준다
+   }
+
+   int getVal() const {
+      return val;
+   }
+   
+   friend ostream& operator<<(ostream&, const INT&);
+   friend istream& operator>>(istream&, INT&);
+};
+
+int operator+(int, INT);
+
+int operator+(int n, INT i) {
+   return n + i.getVal();
+};
+
+
+
+// 입출력함수 - 전역으로 작성한다
+
+istream& operator>>(istream& is, INT& i) {
+   is >> i.val;
+   return is;
+}
+
+ostream& operator<<(ostream& os, const INT& i) {
+   os << i.val;
+   return os;
+}
+
+//[문제] main이 실행되게 하자
+
+int main() {
+   save("소스.cpp");
+
+   INT a{ 10 };
+
+   a++;        
+                                 // 왜 컴파일 안될까?
+   //a++ ++;                     // 왜 postfix increment는 연속해서 사용할 수 없나?
+                                 //- a.operator++(int) 함수를 찾기 때문이다
+   // lvalue = localvalue          - 이름없는 개체가 되어 결과값이 메모리가 없기 때문?
+
+   cout << a << endl;
+
+}
