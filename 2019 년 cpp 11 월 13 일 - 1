@@ -1,0 +1,76 @@
+//----------------------------------------------------
+//2019.11.13 월  
+//
+// 클래스 간의 관계 - 상속(hierarchy)
+//	- 1. 기존 코드를 재사용
+//	- 2. 다형성(polymorphism)을 구현한다
+//		- 메모리를 더 사용하여 다향성을 구현한다.
+//		- virtual
+//		- 추상클래스(abstract class), 순수가상함수( 
+//	- 3. http://www.infobrother.com/Tutorial/C++/C++_Polymorphism
+//----------------------------------------------------
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+// 멤버함수에 virtual을 붙이게 되면
+// 클래스 객체가 생성될 때 포인터 한개가 멤버 변수에 추가된다.
+// - 이 포인터의 이름은 vptr( virtual pointer)인데
+// - vptr은 vtbl( virtual table을 가르킨다)
+
+class Animal{
+	int a;
+
+public:
+	virtual void speak() const {
+		cout << "동물들은 speak할 수 있다." << endl;
+	}
+};
+
+class Dog : public Animal{
+	int d;
+
+public:
+	virtual void speak() const override {
+		cout << "개가 짖는다" << endl;
+	}
+};
+
+class Cat : public Animal{
+	int c;
+	int cc;
+
+public:
+	virtual void speak() const override {	//const 한정자 
+		cout << "고양이가 운다" << endl;
+	}
+};
+
+int main()
+{
+	// 동물 호텔을 운영한다
+	// 동물을 100마리까지 수용할 수 있다.
+	// 개와 고양이를 손님으로 받을 수 있다
+
+	// 100마리가 들어갈 공간을 어떻게 만들까?
+	// 1. Dog (a, d, vptr) 12
+	// 2. Cat (a, c, cc, vptr) 16
+	// 3. Animal (a, vptr) 4
+
+	Animal* animals[100];
+
+	Dog d;
+
+	animals[0] = &d;
+	animals[1] = new Cat;
+	animals[2] = new Cat;
+
+	for (int i = 0; i < 3; ++i) {
+		animals[i]->speak();
+	}
+
+	delete animals[1];
+	delete animals[2];
+}
