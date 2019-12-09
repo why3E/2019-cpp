@@ -1,0 +1,93 @@
+//----------------------------------------------------
+//2019.11.18 
+//
+// 클래스 간의 관계 - 상속(hierarchy)
+//	- 1. 기존 코드를 재사용
+//	- 2. 다형성(polymorphism)을 구현한다
+//		- 메모리를 더 사용하여 다향성을 구현한다.
+//		- virtual
+//		- 추상클래스(abstract class), 순수가상함수( pure virtual function)
+//	- 3. http://www.infobrother.com/Tutorial/C++/C++_Polymorphism
+//----------------------------------------------------
+
+#include <iostream>
+#include <string>
+#include <random>
+#include "save.h"
+
+using namespace std ;
+
+// 멤버함수에 virtual을 붙이게 되면
+// 클래스 객체가 생성될 때 포인터 한개가 멤버 변수에 추가된다.
+// - 이 포인터의 이름은 vptr( virtual pointer)인데
+// - vptr은 vtbl( virtual table을 가르킨다)
+
+class Animal{
+	int a;
+
+public:
+	virtual void speak() const {
+		cout << "동물들은 speak할 수 있다." << endl;
+	}
+};
+
+class Dog : public Animal{
+	int d;
+
+public:
+	virtual void speak() const override {
+		cout << "개가 짖는다" << endl;
+	}
+};
+
+class Cat : public Animal{
+	int c;
+	int cc;
+
+public:
+	virtual void speak() const override {	//const 한정자 
+		cout << "고양이가 운다" << endl;
+	}
+};
+
+// 문제 : 동물을 몇마리 받을 건지 사용자의 입력을 받자
+// 입력한 수만큼 빈방을 만들고
+// 랜덤값을 사용하여 Dog와 Cat을 채워넣자
+// 모두 speak하게 하자
+
+
+int main()
+{
+	int num;
+	cout << "동물을 몇마리 받을까?" << endl;
+	cin >> num;
+
+	//Animal *[100] 과 Animal * [i] 의 차이점 : 100은 되지만 i는 변수라 안됨 Animal* a[i] 는 된다.
+	Animal** p = new Animal* [num];
+
+	default_random_engine dre;
+	uniform_int_distribution<int> uid(1, 2);
+
+
+	for (int i = 0; i < num; ++i)
+	{
+		if (uid(dre) == 1)
+		{
+			p[i] = new Dog;	// <-- (p[i] = (Animal*)(Dog*)new Dog; 업캐스팅)
+		}
+		else
+		{
+			p[i] = new Cat;
+		}
+	}
+
+	for (int i = 0; i < num; ++i)
+	{
+		cout << i << "  ";
+		p[i]->speak();
+	}
+
+	delete[] p;
+
+	save("소스.cpp");
+}
