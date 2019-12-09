@@ -1,0 +1,48 @@
+#include <iostream>
+#include <random>
+#include "save.h"
+
+using namespace std;
+
+struct Vertex  //사용자 정의 자료형
+{
+	float x{ 3 };
+	float y{ 3 };
+	float z{ 3 };
+
+	//함수 오버로딩(overloading)
+	//같은 이름의 함수를 얼마든지 사용할 수 있다.(인자로 구분가능하다면)
+
+	//디폭트 생성자 함수
+	Vertex() {
+		cout << "디폴트 생성자가 호출되었다." << endl;
+	}
+
+	//다른 다양한 생성자도 사용자가 책임지고 코딩해야한다.
+	Vertex(float a, float b, float c) : x{ a }, y{ b }, z{ c } {
+		cout << "정수 3개를 인자로 받은 생성자가 호출되었다" << endl;
+	}
+
+	Vertex(const Vertex& other) : x{ other.x }, y{ other.y }, z{ other.z }{
+		cout << "복사생성자가 호출되었다." << endl;
+	}
+
+	void show() { //멤버 함수(member function)
+		cout << "(" << x << "," << y << "," << z << ")" << endl;
+	}
+
+};
+
+int main()
+{
+	Vertex a;
+	Vertex b{};
+	Vertex c{ 1,2,3 };
+	Vertex d=a; // Vertex d = a --> Vertex d(a); 
+
+
+	d.show();
+
+
+	save("소스.cpp");
+}
